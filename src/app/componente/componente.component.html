@@ -27,9 +27,51 @@
         </ul>
     </div>
     <!-- Tareas Container -->
-    <div class="col row">
-        <h3 class="col-12 text-center">Tareas</h3>
-        <hr>
+    
+    <div class="col">
+        <!-- Contenedor de tareas -->
+        <div class="row" *ngIf="menuItems[1].active; else formulario">
+            <h3 class="col-12 text-center">Tareas</h3>
+            <hr class="col-12">
+            {{ tareas | json }}
+        </div>
+
+        <!-- Formulario para nuevas tareas -->
+        <ng-template #formulario>
+            <div class="row">
+                <h3 class="col-12 text-center">Nueva Tarea</h3>
+                <hr class="col-12">
+                <form class="col-6">
+                    <div class="form-floating">
+                        <!-- <input type="text" id="titulo" class="form-control" placeholder="" [(value)]="newTarea.titulo" /> -->
+                        <input type="text" 
+                            #tituloInput
+                            id="titulo" 
+                            class="form-control" 
+                            required
+                            placeholder="" />
+                        <label for="titulo">Titulo de la tarea</label>
+                    </div>
+                    <div class="form-floating">
+                        <textarea name="descripcion" 
+                            #descripcionInput
+                            id="descripcion" 
+                            cols="30" rows="5" 
+                            class="form-control" 
+                            required
+                            placeholder="" ></textarea>
+                        <label for="descripcion">Descripción de la tarea</label>
+                    </div>
+                    <button type="button" 
+                        (click)="agregarTarea(tituloInput.value , descripcionInput.value)"
+                        class="btn btn-outline-primary">
+                        Agregar
+                    </button>
+
+                    {{newTarea | json}}
+                </form>
+            </div>
+        </ng-template>
 
     </div>
 </section>
