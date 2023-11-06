@@ -26,14 +26,48 @@
             </li> -->
         </ul>
     </div>
-    <!-- Tareas Container -->
-    
+    <!-- Container -->
     <div class="col">
         <!-- Contenedor de tareas -->
         <div class="row" *ngIf="menuItems[1].active; else formulario">
             <h3 class="col-12 text-center">Tareas</h3>
             <hr class="col-12">
-            {{ tareas | json }}
+            <!-- {{ tareas | json }} -->
+            <div class="card p-1 col-12 col-sm-6 col-lg-6" 
+                *ngFor="let tarea of tareas; let i = index">
+                <div class="card-header text-center text-white" 
+                [ngClass]="{
+                        'bg-primary': tarea.status == 'Pendiente',
+                        'bg-success': tarea.status == 'Completado',
+                        'bg-danger':  tarea.status == 'Retrasado'
+                    }">
+                    <h2>{{tarea.titulo}}</h2>
+                </div>
+                <div class="card-body">
+                    {{tarea.descripcion}}
+                </div>
+                <div class="card-footer text-center d-flex justify-content-between">
+                    <p></p>
+                    <p [ngClass]="{
+                        'text-primary': tarea.status == 'Pendiente',
+                        'text-success': tarea.status == 'Completado',
+                        'text-danger':  tarea.status == 'Retrasado'
+                    }">
+                        {{tarea.status}}
+                    </p>
+                    <div class="text-end">
+                        <button class="btn btn-small btn-danger" 
+                        (click)="cambiarStatus(i, 'Retrasado')"
+                        *ngIf="tarea.status == 'Pendiente'"
+                        >R</button>
+
+                        <button class="btn btn-small btn-success" 
+                        (click)="cambiarStatus(i, 'Completado')"
+                        *ngIf="tarea.status != 'Completado'"
+                        >C</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Formulario para nuevas tareas -->
@@ -64,11 +98,11 @@
                     </div>
                     <button type="button" 
                         (click)="agregarTarea(tituloInput.value , descripcionInput.value)"
-                        class="btn btn-outline-primary">
+                        class="btn btn-outline-primary mt-2">
                         Agregar
                     </button>
 
-                    {{newTarea | json}}
+                    <!-- {{newTarea | json}} -->
                 </form>
             </div>
         </ng-template>
